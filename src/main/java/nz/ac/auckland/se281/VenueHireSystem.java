@@ -14,6 +14,17 @@ public class VenueHireSystem {
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
     String createVenueMessage;
+    try {
+      int capacityNum = Integer.parseInt(capacityInput);
+      if (capacityNum < 0) {
+        createVenueMessage =
+            MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("capacity", " positive");
+        System.out.println(createVenueMessage);
+        return;
+      }
+    } catch (Exception e) {
+      System.out.println("num not found");
+    }
 
     if (venueName.isEmpty()) {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
