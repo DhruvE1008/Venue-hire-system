@@ -25,7 +25,16 @@ public class VenueHireSystem {
       }
     } catch (Exception e) {
       // if an error occurs the catch statement prevents the code from crashing
-      System.out.println("num not found");
+      createVenueMessage = MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("capacity", "");
+      System.out.println(createVenueMessage);
+      return;
+    }
+    try {
+      int hireFeeNum = Integer.parseInt(hireFeeInput);
+    } catch (Exception e) {
+      createVenueMessage = MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("hire fee", "");
+      System.out.println(createVenueMessage);
+      return;
     }
 
     if (venueName.isEmpty()) {
