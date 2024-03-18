@@ -16,6 +16,7 @@ public class VenueHireSystem {
     String createVenueMessage;
     try {
       int capacityNum = Integer.parseInt(capacityInput);
+      // converting the capacity from type String to type int
       if (capacityNum < 0) {
         createVenueMessage =
             MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("capacity", " positive");
@@ -23,13 +24,14 @@ public class VenueHireSystem {
         return;
       }
     } catch (Exception e) {
+      // if an error occurs the catch statement prevents the code from crashing
       System.out.println("num not found");
     }
 
     if (venueName.isEmpty()) {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
     } else {
-      // if venueName is not empty the venue will be created
+      // if venueName is not empty and capacityInput is positive the venue will be created
       createVenueMessage = MessageCli.VENUE_SUCCESSFULLY_CREATED.getMessage(venueName, venueCode);
       System.out.println(createVenueMessage);
     }
