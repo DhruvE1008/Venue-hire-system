@@ -39,10 +39,11 @@ public class VenueHireSystem {
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
     String createVenueMessage;
+    String newName = venueName.trim();
     try {
       int capacityNum = Integer.parseInt(capacityInput);
       // converting the capacity from type String to type int
-      if (capacityNum < 0) {
+      if (capacityNum < 1) {
         createVenueMessage =
             MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("capacity", " positive");
         System.out.println(createVenueMessage);
@@ -57,6 +58,10 @@ public class VenueHireSystem {
     try {
       int hireFeeNum = Integer.parseInt(hireFeeInput);
       // converts the hireFeeInput from type String to type int
+      if (hireFeeNum < 1) {
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", " positive");
+        return;
+      }
     } catch (Exception e) {
       // if there is an error when converting data types an error message will be output
       createVenueMessage = MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("hire fee", "");
@@ -64,7 +69,7 @@ public class VenueHireSystem {
       return;
     }
 
-    if (venueName.isEmpty()) {
+    if (newName.isEmpty()) {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
     } else {
       // checks if the venue code is unique
