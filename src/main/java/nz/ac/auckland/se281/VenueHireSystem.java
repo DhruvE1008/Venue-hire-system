@@ -5,10 +5,17 @@ import nz.ac.auckland.se281.Types.FloralType;
 
 public class VenueHireSystem {
 
+  // class variable that stores the number of venues
+  private int venueCount = 0;
+
   public VenueHireSystem() {}
 
   public void printVenues() {
-    MessageCli.NO_VENUES.printMessage();
+    if (venueCount == 0) {
+      MessageCli.NO_VENUES.printMessage();
+    } else if (venueCount == 1) {
+      MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
+    }
   }
 
   public void createVenue(
@@ -31,7 +38,9 @@ public class VenueHireSystem {
     }
     try {
       int hireFeeNum = Integer.parseInt(hireFeeInput);
+      // converts the hireFeeInput from type String to type int
     } catch (Exception e) {
+      // if there is an error when converting data types an error message will be output
       createVenueMessage = MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("hire fee", "");
       System.out.println(createVenueMessage);
       return;
@@ -40,9 +49,12 @@ public class VenueHireSystem {
     if (venueName.isEmpty()) {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
     } else {
-      // if venueName is not empty and capacityInput is positive the venue will be created
+      // if venueName is not empty, capacityInput is positive and hireFeeInput is an integer in type
+      // String
+      // the venue will be created
       createVenueMessage = MessageCli.VENUE_SUCCESSFULLY_CREATED.getMessage(venueName, venueCode);
       System.out.println(createVenueMessage);
+      venueCount++;
     }
   }
 
