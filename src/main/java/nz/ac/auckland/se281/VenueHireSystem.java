@@ -25,7 +25,7 @@ public class VenueHireSystem {
     } else if (venueCount == 1) {
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
     } else if (venueCount < 10) {
-      MessageCli.NUMBER_VENUES.printMessage("are", nums[venueCount-2], "s");
+      MessageCli.NUMBER_VENUES.printMessage("are", nums[venueCount - 2], "s");
     } else if (venueCount >= 10) {
       MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueCount), "s");
     }
@@ -67,9 +67,17 @@ public class VenueHireSystem {
     if (venueName.isEmpty()) {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
     } else {
-      // if venueName is not empty, capacityInput is positive and hireFeeInput is an integer in type
-      // String
-      // the venue will be created
+      // checks if the venue code is unique
+      for (int i = 0; i < venueCount; i++) {
+        if (venueCodes.get(i).equals(venueCode)) {
+          MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(
+              venueCodes.get(i), venueNames.get(i));
+          return;
+        }
+      }
+      // if venueName is not empty, the venue code is unique, capacityInput is positive and
+      // hireFeeInput
+      // is an integer in type String the venue will be created
       createVenueMessage = MessageCli.VENUE_SUCCESSFULLY_CREATED.getMessage(venueName, venueCode);
       System.out.println(createVenueMessage);
       venueCount++;
