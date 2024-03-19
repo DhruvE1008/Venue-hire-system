@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
 import nz.ac.auckland.se281.Types.CateringType;
 import nz.ac.auckland.se281.Types.FloralType;
 
@@ -7,14 +8,31 @@ public class VenueHireSystem {
 
   // class variable that stores the number of venues
   private int venueCount = 0;
+  // array lists with info about venues
+  private ArrayList<String> venueNames = new ArrayList<String>();
+  private ArrayList<String> venueCodes = new ArrayList<String>();
+  private ArrayList<String> venueCapacities = new ArrayList<String>();
+  private ArrayList<String> venueHireFees = new ArrayList<String>();
+  // storing the String version of the numbers under 10 for the venue output message
+  private String[] nums = {"two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
   public VenueHireSystem() {}
 
   public void printVenues() {
+    // prints message based on number of venues
     if (venueCount == 0) {
       MessageCli.NO_VENUES.printMessage();
     } else if (venueCount == 1) {
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
+    } else if (venueCount < 10) {
+      MessageCli.NUMBER_VENUES.printMessage("are", nums[venueCount-2], "s");
+    } else if (venueCount >= 10) {
+      MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueCount), "s");
+    }
+    // lists venues with their info
+    for (int i = 0; i < venueCount; i++) {
+      MessageCli.VENUE_ENTRY.printMessage(
+          venueNames.get(i), venueCodes.get(i), venueCapacities.get(i), venueHireFees.get(i));
     }
   }
 
@@ -55,6 +73,11 @@ public class VenueHireSystem {
       createVenueMessage = MessageCli.VENUE_SUCCESSFULLY_CREATED.getMessage(venueName, venueCode);
       System.out.println(createVenueMessage);
       venueCount++;
+      // adding values to the venue info array lists
+      venueNames.add(venueName);
+      venueCodes.add(venueCode);
+      venueCapacities.add(capacityInput);
+      venueHireFees.add(hireFeeInput);
     }
   }
 
