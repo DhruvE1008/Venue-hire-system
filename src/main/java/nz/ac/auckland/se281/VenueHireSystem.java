@@ -9,11 +9,12 @@ public class VenueHireSystem {
   // class variable that stores the number of venues
   private int venueCount = 0;
   // array lists with info about venues
-  private ArrayList<String> venueNames = new ArrayList<String>();
-  private ArrayList<String> venueCodes = new ArrayList<String>();
-  private ArrayList<String> venueCapacities = new ArrayList<String>();
-  private ArrayList<String> venueHireFees = new ArrayList<String>();
+  //private ArrayList<String> venueNames = new ArrayList<String>();
+  //private ArrayList<String> venueCodes = new ArrayList<String>();
+  //private ArrayList<String> venueCapacities = new ArrayList<String>();
+  //private ArrayList<String> venueHireFees = new ArrayList<String>();
   // storing the String version of the numbers under 10 for the venue output message
+  private ArrayList<Venues> venueList = new ArrayList<Venues>();
   private String[] nums = {"two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
   public VenueHireSystem() {}
@@ -30,9 +31,9 @@ public class VenueHireSystem {
       MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueCount), "s");
     }
     // lists venues with their info
-    for (int i = 0; i < venueCount; i++) {
+    for (Venues venue: venueList) {
       MessageCli.VENUE_ENTRY.printMessage(
-          venueNames.get(i), venueCodes.get(i), venueCapacities.get(i), venueHireFees.get(i));
+          venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee());
     }
   }
 
@@ -73,10 +74,10 @@ public class VenueHireSystem {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
     } else {
       // checks if the venue code is unique
-      for (int i = 0; i < venueCount; i++) {
-        if (venueCodes.get(i).equals(venueCode)) {
+      for (Venues venue:  venueList) {
+        if (venue.getVenueCode().equals(venueCode)) {
           MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(
-              venueCodes.get(i), venueNames.get(i));
+              venue.getVenueCode(), venue.getVenueName());
           return;
         }
       }
@@ -87,10 +88,7 @@ public class VenueHireSystem {
       System.out.println(createVenueMessage);
       venueCount++;
       // adding values to the venue info array lists
-      venueNames.add(venueName);
-      venueCodes.add(venueCode);
-      venueCapacities.add(capacityInput);
-      venueHireFees.add(hireFeeInput);
+      venueList.add(new Venues(venueName, venueCode, capacityInput, hireFeeInput));
     }
   }
 
