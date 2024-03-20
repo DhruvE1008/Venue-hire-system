@@ -8,13 +8,9 @@ public class VenueHireSystem {
 
   // class variable that stores the number of venues
   private int venueCount = 0;
-  // array lists with info about venues
-  //private ArrayList<String> venueNames = new ArrayList<String>();
-  //private ArrayList<String> venueCodes = new ArrayList<String>();
-  //private ArrayList<String> venueCapacities = new ArrayList<String>();
-  //private ArrayList<String> venueHireFees = new ArrayList<String>();
-  // storing the String version of the numbers under 10 for the venue output message
+  // array list that stores the venue info
   private ArrayList<Venues> venueList = new ArrayList<Venues>();
+  // storing the String version of the numbers under 10 for the venue output message
   private String[] nums = {"two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
   public VenueHireSystem() {}
@@ -39,21 +35,17 @@ public class VenueHireSystem {
 
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
-    String createVenueMessage;
     String newName = venueName.trim();
     try {
       int capacityNum = Integer.parseInt(capacityInput);
       // converting the capacity from type String to type int
       if (capacityNum < 1) {
-        createVenueMessage =
-            MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("capacity", " positive");
-        System.out.println(createVenueMessage);
+          MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", " positive");
         return;
       }
     } catch (Exception e) {
       // if an error occurs the catch statement prevents the code from crashing
-      createVenueMessage = MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("capacity", "");
-      System.out.println(createVenueMessage);
+      MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", "");
       return;
     }
     try {
@@ -65,8 +57,7 @@ public class VenueHireSystem {
       }
     } catch (Exception e) {
       // if there is an error when converting data types an error message will be output
-      createVenueMessage = MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.getMessage("hire fee", "");
-      System.out.println(createVenueMessage);
+      MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", "");
       return;
     }
 
@@ -82,10 +73,8 @@ public class VenueHireSystem {
         }
       }
       // if venueName is not empty, the venue code is unique, capacityInput is positive and
-      // hireFeeInput
-      // is an integer in type String the venue will be created
-      createVenueMessage = MessageCli.VENUE_SUCCESSFULLY_CREATED.getMessage(venueName, venueCode);
-      System.out.println(createVenueMessage);
+      // hireFeeInput is an integer in type String the venue will be created
+      MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
       venueCount++;
       // adding values to the venue info array lists
       venueList.add(new Venues(venueName, venueCode, capacityInput, hireFeeInput));
