@@ -21,9 +21,11 @@ public class Venues {
   public String getVenueCode() {
     return venueCode;
   } 
+
   public String getCapacity() {
     return capacity;
   } 
+  
   public String getHireFee() {
     return hireFee;
   } 

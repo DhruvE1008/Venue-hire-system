@@ -27,7 +27,7 @@ public class VenueHireSystem {
       MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueCount), "s");
     }
     // lists venues with their info
-    for (Venues venue: venueList) {
+    for (Venues venue : venueList) {
       MessageCli.VENUE_ENTRY.printMessage(
           venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee());
     }
@@ -40,7 +40,7 @@ public class VenueHireSystem {
       int capacityNum = Integer.parseInt(capacityInput);
       // converting the capacity from type String to type int
       if (capacityNum < 1) {
-          MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", " positive");
+        MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", " positive");
         return;
       }
     } catch (Exception e) {
@@ -65,7 +65,7 @@ public class VenueHireSystem {
       MessageCli.VENUE_NOT_CREATED_EMPTY_NAME.printMessage();
     } else {
       // checks if the venue code is unique
-      for (Venues venue:  venueList) {
+      for (Venues venue : venueList) {
         if (venue.getVenueCode().equals(venueCode)) {
           MessageCli.VENUE_NOT_CREATED_CODE_EXISTS.printMessage(
               venue.getVenueCode(), venue.getVenueName());
