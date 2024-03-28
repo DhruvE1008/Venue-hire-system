@@ -14,7 +14,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
   MainTest.Task1.class,
-  // MainTest.Task2.class,
+  MainTest.Task2.class,
   // MainTest.Task3.class,
   MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
@@ -736,29 +736,29 @@ public class MainTest {
       assertDoesNotContain("There is", true);
       assertDoesNotContain("9 venues", true);
     }
+
     @Test
     public void T4_tests_for_values_being_zero() throws Exception {
       runCommands(
-        CREATE_VENUE,
-        "'Frugal Fiesta Hall'",
-        "FFH",
-        "0",
-        "150", //
-        CREATE_VENUE,
-        "'Frugal Fiesta Hall'",
-        "FFH",
-        "150",
-        "0",
-        PRINT_VENUES);
-        runCommands(CREATE_VENUE, "'Frugal Fiesta Hall'", "FFH", "23", "-1");
+          CREATE_VENUE,
+          "'Frugal Fiesta Hall'",
+          "FFH",
+          "0",
+          "150", //
+          CREATE_VENUE,
+          "'Frugal Fiesta Hall'",
+          "FFH",
+          "150",
+          "0",
+          PRINT_VENUES);
+      runCommands(CREATE_VENUE, "'Frugal Fiesta Hall'", "FFH", "23", "-1");
 
-        assertContains("Venue not created: hire fee must be a positive number.");
-        assertDoesNotContain("Successfully created venue", true);
+      assertContains("Venue not created: hire fee must be a positive number.");
+      assertDoesNotContain("Successfully created venue", true);
       assertContains("Venue not created: capacity must be a positive number.");
       assertContains("Venue not created: hire fee must be a positive number.");
       assertDoesNotContain("Successfully created venue 'Frugal Fiesta Hall' (FFH).", true);
     }
-
   }
 
   private static final Object[] CREATE_NINE_VENUES =
