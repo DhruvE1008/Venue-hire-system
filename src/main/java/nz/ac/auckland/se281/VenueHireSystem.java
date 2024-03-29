@@ -100,17 +100,20 @@ public class VenueHireSystem {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage(options);
       return;
     }
+    if (venueCount == 0) {
+      MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
+      return;
+    }
     for (int i = 0; i < venueCount; i++) {
-      if (options[0] == venueList.get(i).getVenueCode()) {
+      if (options[0].equals(venueList.get(i).getVenueCode())) {
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             BookingReferenceGenerator.generateBookingReference(),
             venueList.get(i).getVenueName(),
-            date,
-            venueList.get(i).getCapacity());
+            options[1],
+            options[3]);
         return;
       }
     }
-    MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
   }
 
   public void printBookings(String venueCode) {
