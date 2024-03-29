@@ -98,7 +98,19 @@ public class VenueHireSystem {
   public void makeBooking(String[] options) {
     if (date.isEmpty()) {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage(options);
+      return;
     }
+    for (int i = 0; i < venueCount; i++) {
+      if (options[0] == venueList.get(i).getVenueCode()) {
+        MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
+            BookingReferenceGenerator.generateBookingReference(),
+            venueList.get(i).getVenueName(),
+            date,
+            venueList.get(i).getCapacity());
+        return;
+      }
+    }
+    MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
   }
 
   public void printBookings(String venueCode) {
