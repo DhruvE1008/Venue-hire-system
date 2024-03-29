@@ -8,6 +8,7 @@ public class VenueHireSystem {
 
   // class variable that stores the number of venues
   private int venueCount = 0;
+  private String date = "";
   // array list that stores the venue info
   private ArrayList<Venues> venueList = new ArrayList<Venues>();
   // storing the String version of the numbers under 10 for the venue output message
@@ -82,11 +83,16 @@ public class VenueHireSystem {
   }
 
   public void setSystemDate(String dateInput) {
+    date = dateInput;
     MessageCli.DATE_SET.printMessage(dateInput);
   }
 
   public void printSystemDate() {
-    MessageCli.CURRENT_DATE.printMessage("not set");
+    if (date.isEmpty()) {
+      MessageCli.CURRENT_DATE.printMessage("not set");
+    } else {
+      MessageCli.CURRENT_DATE.printMessage(date);
+    }
   }
 
   public void makeBooking(String[] options) {
