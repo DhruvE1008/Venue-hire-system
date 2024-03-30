@@ -20,6 +20,11 @@ public class VenueHireSystem {
   public VenueHireSystem() {}
 
   public void printVenues() {
+    String[] dateStrings;
+    String newDate;
+    int bookingCount;
+    String day;
+
     // prints message based on number of venues
     if (venueCount == 0) {
       MessageCli.NO_VENUES.printMessage();
@@ -31,14 +36,43 @@ public class VenueHireSystem {
       MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueCount), "s");
     }
     // lists venues with their info
+    dateStrings = date.split("/");
+    newDate = date;
     for (Venues venue : venueList) {
-      MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee(), date);
+      day = dateStrings[0];
+      bookingCount = 0;
+      while (bookingCount < bookingList.size()) {
+        if (venue.getVenueCode().equals(bookingList.get(bookingCount).getVenueCode()) && bookingList.get(bookingCount).getDate().equals(newDate)) {
+          try {
+            int dayInt = Integer.parseInt(day) + 1;
+            // if the day of the month is less than 10 a 0 is added to front
+            if (dayInt < 10) {
+              StringBuilder sb = new StringBuilder();
+              sb.append(0);
+              sb.append(dayInt);
+              day = sb.toString();
+            } else {
+              day = String.valueOf(dayInt);
+            }
+          } catch (Exception e) {
+
+          }
+          newDate = String.valueOf(day) + "/" + dateStrings[1] + "/" + dateStrings[2];
+          bookingCount = 0;
+        }
+        bookingCount++;
+      }
+      // creates the next available date for booking
+      newDate = String.valueOf(day) + "/" + dateStrings[1] + "/" + dateStrings[2];
+      MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee(), newDate);
     }
   }
 
   public void createVenue(
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
     String newName = venueName.trim();
+    int hireFeeNum;
+
     try {
       int capacityNum = Integer.parseInt(capacityInput);
       // converting the capacity from type String to type int
@@ -52,7 +86,7 @@ public class VenueHireSystem {
       return;
     }
     try {
-      int hireFeeNum = Integer.parseInt(hireFeeInput);
+      hireFeeNum = Integer.parseInt(hireFeeInput);
       // converts the hireFeeInput from type String to type int
       if (hireFeeNum < 1) {
         MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("hire fee", " positive");
@@ -98,6 +132,9 @@ public class VenueHireSystem {
   }
 
   public void makeBooking(String[] options) {
+    int capacityNum;
+    int attendees;
+
     // checks if date has been set
     if (date.isEmpty()) {
       MessageCli.BOOKING_NOT_MADE_DATE_NOT_SET.printMessage();
@@ -127,8 +164,8 @@ public class VenueHireSystem {
         // checks if the number of attendees are less than 25% of the capacity of the venue or the
         // number of attendees are more than the capacity of the venue
         try {
-          int capacityNum = Integer.parseInt(venue.getCapacity());
-          int attendees = Integer.parseInt(options[3]);
+          capacityNum = Integer.parseInt(venue.getCapacity());
+          attendees = Integer.parseInt(options[3]);
           if (attendees < (capacityNum / 4)) {
             MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
                 options[3], String.valueOf(capacityNum / 4), venue.getCapacity());
