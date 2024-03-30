@@ -32,8 +32,7 @@ public class VenueHireSystem {
     }
     // lists venues with their info
     for (Venues venue : venueList) {
-      MessageCli.VENUE_ENTRY.printMessage(
-          venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee());
+      MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee(), date);
     }
   }
 
