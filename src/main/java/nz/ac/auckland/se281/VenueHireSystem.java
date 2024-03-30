@@ -115,7 +115,7 @@ public class VenueHireSystem {
         for (Venues venue : venueList) {
           if (options[0].equals(venue.getVenueCode())) {
             MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
-              venue.getVenueName(), options[1]);
+                venue.getVenueName(), options[1]);
             return;
           }
         }
@@ -125,6 +125,23 @@ public class VenueHireSystem {
     for (Venues venue : venueList) {
       if (options[0].equals(venue.getVenueCode())) {
         bookingList.add(new Bookings(options[0], options[1], options[2], options[3]));
+        // checks if the number of attendees are less than 25% of the capacity of the venue or the
+        // number of attendees are more than the capacity of the venue
+        try {
+          int capacityNum = Integer.parseInt(venue.getCapacity());
+          int attendees = Integer.parseInt(options[3]);
+          if (attendees < (capacityNum / 4)) {
+            MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+                options[3], String.valueOf(capacityNum / 4), venue.getCapacity());
+            options[3] = String.valueOf(attendees);
+          } else if (attendees > capacityNum) {
+            MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
+                options[3], String.valueOf(capacityNum), venue.getCapacity());
+            options[3] = venue.getCapacity();
+          }
+        } catch (Exception e) {
+
+        }
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             BookingReferenceGenerator.generateBookingReference(),
             venue.getVenueName(),
