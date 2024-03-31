@@ -246,6 +246,8 @@ public class VenueHireSystem {
   public void addCateringService(String bookingReference, CateringType cateringType) {
     for (Bookings booking : bookingList) {
       if (booking.getBookingCode().equals(bookingReference)) {
+        // finds out what type of catering the service is if the booking has been found
+        // to match the booking reference input
         switch (cateringType) {
           case BREAKFAST:
             MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
@@ -279,6 +281,8 @@ public class VenueHireSystem {
         return;
       }
     }
+    // output if the booking is not found
+    MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Catering", bookingReference);
   }
 
   public void addServiceMusic(String bookingReference) {
