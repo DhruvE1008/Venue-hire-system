@@ -5,12 +5,14 @@ public class Bookings {
   private String date;
   private String email;
   private String attendance;
+  private String bookingCode;
   
-  public Bookings(String venueCode, String date, String email, String attendance) {
+  public Bookings(String venueCode, String date, String email, String attendance, String bookingCode) {
     this.venueCode = venueCode;
     this.date = date;
     this.email = email;
     this.attendance = attendance;
+    this.bookingCode = bookingCode;
   }
 
   public String getVenueCode() {
@@ -29,4 +31,7 @@ public class Bookings {
     return attendance;
   } 
   
+  public String getBookingCode() {
+    return bookingCode; 
+  }
 }

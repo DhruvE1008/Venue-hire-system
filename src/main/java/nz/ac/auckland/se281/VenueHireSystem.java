@@ -42,7 +42,8 @@ public class VenueHireSystem {
       day = dateStrings[0];
       bookingCount = 0;
       while (bookingCount < bookingList.size()) {
-        if (venue.getVenueCode().equals(bookingList.get(bookingCount).getVenueCode()) && bookingList.get(bookingCount).getDate().equals(newDate)) {
+        if (venue.getVenueCode().equals(bookingList.get(bookingCount).getVenueCode())
+            && bookingList.get(bookingCount).getDate().equals(newDate)) {
           try {
             int dayInt = Integer.parseInt(day) + 1;
             // if the day of the month is less than 10 a 0 is added to front
@@ -64,7 +65,12 @@ public class VenueHireSystem {
       }
       // creates the next available date for booking
       newDate = String.valueOf(day) + "/" + dateStrings[1] + "/" + dateStrings[2];
-      MessageCli.VENUE_ENTRY.printMessage(venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee(), newDate);
+      MessageCli.VENUE_ENTRY.printMessage(
+          venue.getVenueName(),
+          venue.getVenueCode(),
+          venue.getCapacity(),
+          venue.getHireFee(),
+          newDate);
     }
   }
 
@@ -134,6 +140,7 @@ public class VenueHireSystem {
   public void makeBooking(String[] options) {
     int capacityNum;
     int attendees;
+    String bookingCode;
 
     // checks if date has been set
     if (date.isEmpty()) {
@@ -160,7 +167,8 @@ public class VenueHireSystem {
     // checks if the venue code given as input has a venue associated with it
     for (Venues venue : venueList) {
       if (options[0].equals(venue.getVenueCode())) {
-        bookingList.add(new Bookings(options[0], options[1], options[2], options[3]));
+        bookingCode = BookingReferenceGenerator.generateBookingReference();
+        bookingList.add(new Bookings(options[0], options[1], options[2], options[3], bookingCode));
         // checks if the number of attendees are less than 25% of the capacity of the venue or the
         // number of attendees are more than the capacity of the venue
         try {
@@ -179,7 +187,7 @@ public class VenueHireSystem {
 
         }
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
-            BookingReferenceGenerator.generateBookingReference(),
+            bookingCode,
             venue.getVenueName(),
             options[1],
             options[3]);
@@ -189,7 +197,24 @@ public class VenueHireSystem {
   }
 
   public void printBookings(String venueCode) {
-    // TODO implement this method
+    int venueFound = -1;
+    for (int i = 0; i < venueList.size(); i++) {
+      if (venueList.get(i).getVenueCode().equals(venueCode)) {
+        MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venueList.get(i).getVenueName());
+        venueFound = i;
+      }
+    }
+    for (Bookings booking : bookingList) {
+      if (booking.getVenueCode().equals(venueCode)) {
+        MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(booking.getBookingCode(), booking.getDate());
+        return;
+      }
+    }
+    if (venueFound == -1) {
+      MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
+    } else {
+      MessageCli.PRINT_BOOKINGS_NONE.printMessage(venueList.get(venueFound).getVenueName());
+    }
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
