@@ -218,12 +218,14 @@ public class VenueHireSystem {
   public void printBookings(String venueCode) {
     int venueFound = -1;
     boolean bookingFound = false;
+    // prints out the header for the bookings
     for (int i = 0; i < venueList.size(); i++) {
       if (venueList.get(i).getVenueCode().equals(venueCode)) {
         MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venueList.get(i).getVenueName());
         venueFound = i;
       }
     }
+    // prints each entry of the bookings stored
     for (Bookings booking : bookingList) {
       if (booking.getVenueCode().equals(venueCode)) {
         MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(booking.getBookingCode(), booking.getDate());
@@ -233,6 +235,7 @@ public class VenueHireSystem {
     if (bookingFound == true) {
       return;
     }
+    // if the venue is not stored or the booking is not stored
     if (venueFound == -1) {
       MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
     } else {
@@ -241,7 +244,41 @@ public class VenueHireSystem {
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
-    // TODO implement this method
+    for (Bookings booking : bookingList) {
+      if (booking.getBookingCode().equals(bookingReference)) {
+        switch (cateringType) {
+          case BREAKFAST:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.BREAKFAST.getName() + ")"), bookingReference);
+            break;
+          case LUNCH:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.LUNCH.getName() + ")"), bookingReference);
+            break;
+          case DINNER:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.DINNER.getName() + ")"), bookingReference);
+            break;
+          case DRINKS:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.DRINKS.getName() + ")"), bookingReference);
+            break;
+          case TWO_COURSE_BL:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.TWO_COURSE_BL.getName() + ")"), bookingReference);
+            break;
+          case TWO_COURSE_LD:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.TWO_COURSE_LD.getName() + ")"), bookingReference);
+            break;
+          case THREE_COURSE:
+            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+                ("Catering (" + CateringType.THREE_COURSE.getName() + ")"), bookingReference);
+            break;
+        }
+        return;
+      }
+    }
   }
 
   public void addServiceMusic(String bookingReference) {
