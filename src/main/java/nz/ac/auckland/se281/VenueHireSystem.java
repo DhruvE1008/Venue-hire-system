@@ -198,6 +198,7 @@ public class VenueHireSystem {
 
   public void printBookings(String venueCode) {
     int venueFound = -1;
+    boolean bookingFound = false;
     for (int i = 0; i < venueList.size(); i++) {
       if (venueList.get(i).getVenueCode().equals(venueCode)) {
         MessageCli.PRINT_BOOKINGS_HEADER.printMessage(venueList.get(i).getVenueName());
@@ -207,8 +208,11 @@ public class VenueHireSystem {
     for (Bookings booking : bookingList) {
       if (booking.getVenueCode().equals(venueCode)) {
         MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(booking.getBookingCode(), booking.getDate());
-        return;
+        bookingFound = true;
       }
+    }
+    if (bookingFound == true) {
+      return;
     }
     if (venueFound == -1) {
       MessageCli.PRINT_BOOKINGS_VENUE_NOT_FOUND.printMessage(venueCode);
