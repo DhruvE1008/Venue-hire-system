@@ -141,6 +141,8 @@ public class VenueHireSystem {
     int capacityNum;
     int attendees;
     String bookingCode;
+    String[] currentDate = date.split("/");
+    String[] bookingDate = options[1].split("/");
 
     // checks if date has been set
     if (date.isEmpty()) {
@@ -151,6 +153,25 @@ public class VenueHireSystem {
     if (venueCount == 0) {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
       return;
+    }
+    // checks if the booking date is today or in the future
+    try {
+      if (Integer.parseInt(bookingDate[2]) < Integer.parseInt(currentDate[2])) {
+        MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], date);
+        return;
+      } else if (Integer.parseInt(bookingDate[2]) == Integer.parseInt(currentDate[2])) {
+        if (Integer.parseInt(bookingDate[1]) < Integer.parseInt(currentDate[1])) {
+          MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], date);
+          return;
+        } else if (Integer.parseInt(bookingDate[1]) == Integer.parseInt(currentDate[1])) {
+          if (Integer.parseInt(bookingDate[0]) < Integer.parseInt(currentDate[0])) {
+            MessageCli.BOOKING_NOT_MADE_PAST_DATE.printMessage(options[1], date);
+            return;
+          }
+        }
+      }
+    } catch (Exception e) {
+
     }
     // checks if there has been a booking on the date
     for (Bookings booking : bookingList) {
@@ -187,13 +208,11 @@ public class VenueHireSystem {
 
         }
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
-            bookingCode,
-            venue.getVenueName(),
-            options[1],
-            options[3]);
+            bookingCode, venue.getVenueName(), options[1], options[3]);
         return;
       }
     }
+    MessageCli.BOOKING_NOT_MADE_VENUE_NOT_FOUND.printMessage(options[0]);
   }
 
   public void printBookings(String venueCode) {
