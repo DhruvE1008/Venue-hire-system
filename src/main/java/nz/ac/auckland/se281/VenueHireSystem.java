@@ -291,6 +291,12 @@ public class VenueHireSystem {
   }
 
   public void viewInvoice(String bookingReference) {
+    int cateringPrice = 0;
+    int floralPrice = 0;
+    int musicPrice = 0;
+    int cateringIndex = -1;
+    int floralIndex = -1;
+
     for (Bookings booking : bookingList) {
       if (booking.getBookingCode().equals(bookingReference)) {
         for (Venues venue : venueList) {
@@ -300,24 +306,46 @@ public class VenueHireSystem {
                 bookingReference,
                 booking.getEmail(),
                 booking.getBookingDate(),
+                booking.getPartyDate(),
                 booking.getAttendance(),
                 venue.getVenueName());
             MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(venue.getHireFee());
             try {
+              // checks for the services booked for a booking
+              for (int j = 0; j < serviceList.size(); j++) {
+                if (serviceList.get(j).getbookingReference().equals(bookingReference)) {
+                  switch (serviceList.get(j).getServiceName()) {
+                    case "Catering":
+                      cateringPrice = Integer.parseInt(booking.getAttendance()) * serviceList.get(j).getPrice();
+                      cateringIndex = j;
+                      break;
+                    case "Floral":
+                      floralPrice = serviceList.get(j).getPrice() * Integer.parseInt(booking.getAttendance());
+                      floralPrice = j;
+                      break;
+                    case "Music":
+                      musicPrice = 500;
+                      break;
+                  }
+                }
+              }
               // catering info printed
-              MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-                  serviceList.get(0).getServiceName(),
-                  String.valueOf(
-                      (serviceList.get(0).getPrice()) * Integer.parseInt(booking.getAttendance())));
+              if (cateringIndex != -1) {
+                MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
+                  serviceList.get(cateringIndex).getServiceName(),
+                  String.valueOf(cateringPrice));
+              }
               // floral info printed
-              MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
-                  serviceList.get(0).getServiceName(), "0");
+              if (floralIndex != -1) {
+                MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
+                  serviceList.get(0).getServiceName(), String.valueOf(floralPrice));
+              }
               // music info printed
-              MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("0");
+              if (musicPrice != 0) {
+                MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
+              }
               MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(
-                  String.valueOf(
-                      (serviceList.get(0).getPrice()) * Integer.parseInt(booking.getAttendance())
-                          + Integer.parseInt(venue.getHireFee())));
+                  String.valueOf(cateringPrice + floralPrice + musicPrice + Integer.parseInt(venue.getHireFee())));
             } catch (Exception e) {
 
             }
