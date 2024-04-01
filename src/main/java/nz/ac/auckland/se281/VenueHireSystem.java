@@ -16,6 +16,8 @@ public class VenueHireSystem {
   private String[] nums = {"two", "three", "four", "five", "six", "seven", "eight", "nine"};
   // array list that stores the booking info
   private ArrayList<Bookings> bookingList = new ArrayList<Bookings>();
+  // array list that stores services info
+  private ArrayList<Services> serviceList = new ArrayList<Services>();
 
   public VenueHireSystem() {}
 
@@ -246,38 +248,9 @@ public class VenueHireSystem {
   public void addCateringService(String bookingReference, CateringType cateringType) {
     for (Bookings booking : bookingList) {
       if (booking.getBookingCode().equals(bookingReference)) {
-        // finds out what type of catering the service is if the booking has been found
-        // to match the booking reference input
-        switch (cateringType) {
-          case BREAKFAST:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.BREAKFAST.getName() + ")"), bookingReference);
-            break;
-          case LUNCH:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.LUNCH.getName() + ")"), bookingReference);
-            break;
-          case DINNER:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.DINNER.getName() + ")"), bookingReference);
-            break;
-          case DRINKS:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.DRINKS.getName() + ")"), bookingReference);
-            break;
-          case TWO_COURSE_BL:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.TWO_COURSE_BL.getName() + ")"), bookingReference);
-            break;
-          case TWO_COURSE_LD:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.TWO_COURSE_LD.getName() + ")"), bookingReference);
-            break;
-          case THREE_COURSE:
-            MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
-                ("Catering (" + CateringType.THREE_COURSE.getName() + ")"), bookingReference);
-            break;
-        }
+        MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+            ("Catering (" + cateringType.getName() + ")"), bookingReference);
+        serviceList.add(new Catering("Catering", bookingReference, cateringType));
         return;
       }
     }
@@ -286,14 +259,31 @@ public class VenueHireSystem {
   }
 
   public void addServiceMusic(String bookingReference) {
-    // TODO implement this method
+    for (Bookings booking : bookingList) {
+      if (booking.getBookingCode().equals(bookingReference)) {
+        MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", bookingReference);
+        serviceList.add(new Music("Music", bookingReference));
+        return;
+      }
+    }
+    // output if the booking is not found
+    MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Music", bookingReference);
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
-    // TODO implement this method
+    for (Bookings booking : bookingList) {
+      if (booking.getBookingCode().equals(bookingReference)) {
+        MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
+            ("Floral (" + floralType.getName() + ")"), bookingReference);
+        serviceList.add(new Floral("Floral", bookingReference, floralType));
+        return;
+      }
+    }
+    // output if the booking is not found
+    MessageCli.SERVICE_NOT_ADDED_BOOKING_NOT_FOUND.printMessage("Floral", bookingReference);
   }
 
   public void viewInvoice(String bookingReference) {
-    // TODO implement this method
-  }
+  
+  }  
 }
