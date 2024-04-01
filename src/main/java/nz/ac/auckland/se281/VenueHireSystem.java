@@ -45,7 +45,7 @@ public class VenueHireSystem {
       bookingCount = 0;
       while (bookingCount < bookingList.size()) {
         if (venue.getVenueCode().equals(bookingList.get(bookingCount).getVenueCode())
-            && bookingList.get(bookingCount).getDate().equals(newDate)) {
+            && bookingList.get(bookingCount).getPartyDate().equals(newDate)) {
           try {
             int dayInt = Integer.parseInt(day) + 1;
             // if the day of the month is less than 10 a 0 is added to front
@@ -177,7 +177,7 @@ public class VenueHireSystem {
     }
     // checks if there has been a booking on the date
     for (Bookings booking : bookingList) {
-      if (options[1].equals(booking.getDate())) {
+      if (options[1].equals(booking.getPartyDate())) {
         for (Venues venue : venueList) {
           if (options[0].equals(venue.getVenueCode())) {
             MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
@@ -191,7 +191,8 @@ public class VenueHireSystem {
     for (Venues venue : venueList) {
       if (options[0].equals(venue.getVenueCode())) {
         bookingCode = BookingReferenceGenerator.generateBookingReference();
-        bookingList.add(new Bookings(options[0], options[1], options[2], options[3], bookingCode));
+        bookingList.add(
+            new Bookings(options[0], options[1], options[2], options[3], bookingCode, date));
         // checks if the number of attendees are less than 25% of the capacity of the venue or the
         // number of attendees are more than the capacity of the venue
         try {
@@ -230,7 +231,8 @@ public class VenueHireSystem {
     // prints each entry of the bookings stored
     for (Bookings booking : bookingList) {
       if (booking.getVenueCode().equals(venueCode)) {
-        MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(booking.getBookingCode(), booking.getDate());
+        MessageCli.PRINT_BOOKINGS_ENTRY.printMessage(
+            booking.getBookingCode(), booking.getPartyDate());
         bookingFound = true;
       }
     }
@@ -246,6 +248,7 @@ public class VenueHireSystem {
   }
 
   public void addCateringService(String bookingReference, CateringType cateringType) {
+    // looks if the booking reference matches to an existing booking
     for (Bookings booking : bookingList) {
       if (booking.getBookingCode().equals(bookingReference)) {
         MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
@@ -259,6 +262,7 @@ public class VenueHireSystem {
   }
 
   public void addServiceMusic(String bookingReference) {
+    // looks if the booking reference matches to an existing booking
     for (Bookings booking : bookingList) {
       if (booking.getBookingCode().equals(bookingReference)) {
         MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage("Music", bookingReference);
@@ -271,6 +275,7 @@ public class VenueHireSystem {
   }
 
   public void addServiceFloral(String bookingReference, FloralType floralType) {
+    // looks if the booking reference matches to an existing booking
     for (Bookings booking : bookingList) {
       if (booking.getBookingCode().equals(bookingReference)) {
         MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
@@ -284,6 +289,30 @@ public class VenueHireSystem {
   }
 
   public void viewInvoice(String bookingReference) {
-  
-  }  
+    for (Bookings booking : bookingList) {
+      if (booking.getBookingCode().equals(bookingReference)) {
+        for (Venues venue : venueList) {
+          if (venue.getVenueCode().equals(booking.getVenueCode())) {
+            MessageCli.INVOICE_CONTENT_TOP_HALF.printMessage(
+                bookingReference,
+                booking.getEmail(),
+                booking.getBookingDate(),
+                booking.getAttendance(),
+                venue.getVenueName());
+            MessageCli.INVOICE_CONTENT_VENUE_FEE.printMessage(venue.getHireFee());
+            try {
+              MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(serviceList.get(0).getServiceName(), String.valueOf((serviceList.get(0).getPrice())*Integer.parseInt(booking.getAttendance())));
+              MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(serviceList.get(0).getServiceName(),"0");
+              MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("0");
+              MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(
+                  String.valueOf(
+                      serviceList.get(0).getPrice() + Integer.parseInt(venue.getHireFee())));
+            } catch (Exception e) {
+
+            }
+          }
+        }
+      }
+    }
+  }
 }
