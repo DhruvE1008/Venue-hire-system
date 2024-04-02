@@ -320,8 +320,8 @@ public class VenueHireSystem {
                       cateringIndex = j;
                       break;
                     case "Floral":
-                      floralPrice = serviceList.get(j).getPrice() * Integer.parseInt(booking.getAttendance());
-                      floralPrice = j;
+                      floralPrice = serviceList.get(j).getPrice();
+                      floralIndex = j;
                       break;
                     case "Music":
                       musicPrice = 500;
