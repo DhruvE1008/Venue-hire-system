@@ -314,7 +314,7 @@ public class VenueHireSystem {
               // checks for the services booked for a booking
               for (int j = 0; j < serviceList.size(); j++) {
                 if (serviceList.get(j).getbookingReference().equals(bookingReference)) {
-                  switch (serviceList.get(j).getServiceName()) {
+                  switch (serviceList.get(j).getServiceType()) {
                     case "Catering":
                       cateringPrice = Integer.parseInt(booking.getAttendance()) * serviceList.get(j).getPrice();
                       cateringIndex = j;
