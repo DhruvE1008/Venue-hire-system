@@ -13,10 +13,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
- // MainTest.Task1.class,
+  // MainTest.Task1.class,
   MainTest.Task2.class,
   MainTest.Task3.class,
-  //MainTest.YourTests.class, // Uncomment this line to run your own tests
+  MainTest.YourTests.class, // Uncomment this line to run your own tests
 })
 public class MainTest {
 
@@ -710,54 +710,74 @@ public class MainTest {
 
     @Test
     public void T4_01_add_your_own_tests_as_needed() throws Exception {
-      // runCommands(PRINT_VENUES);
-      runCommands(unpack(CREATE_NINE_VENUES, PRINT_VENUES));
-      assertContains("Successfully created venue 'Frugal Fiesta Hall' (FFH).");
-      assertContains("Successfully created venue 'Comfy Corner Events Centre' (CCEC).");
-      assertContains("Successfully created venue 'Cozy Comforts Venue' (CCV).");
-      assertContains("Successfully created venue 'Charming Charm Hall' (CCH).");
-      assertContains("Successfully created venue 'Refined Radiance Venue' (RRV).");
-      assertContains("Successfully created venue 'Classy Celebration Venue' (TGB).");
-      assertContains("Successfully created venue 'Grand Gala Gardens' (GGG).");
-      assertContains("Successfully created venue 'Exclusive Elegance Venue' (EEV).");
-      assertContains("Successfully created venue 'Luxurious Legacy Hall' (LLH).");
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES, //
+              SET_DATE,
+              "03/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "04/02/2024", "client001@email.com", "230"),
+              MAKE_BOOKING,
+              options("GGG", "03/02/2024", "client001@email.com", "230"),
+              PRINT_VENUES));
 
-      assertContains("There are nine venues in the system:");
-      assertContains("Frugal Fiesta Hall (FFH) - 80 people - $250 base hire fee");
-      assertContains("Comfy Corner Events Centre (CCEC) - 120 people - $500 base hire fee");
-      assertContains("Cozy Comforts Venue (CCV) - 200 people - $500 base hire fee");
-      assertContains("Charming Charm Hall (CCH) - 220 people - $500 base hire fee");
-      assertContains("Refined Radiance Venue (RRV) - 200 people - $500 base hire fee");
-      assertContains("Classy Celebration Venue (TGB) - 150 people - $1000 base hire fee");
-      assertContains("Grand Gala Gardens (GGG) - 260 people - $1500 base hire fee");
-      assertContains("Exclusive Elegance Venue (EEV) - 350 people - $1500 base hire fee");
-      assertContains("Luxurious Legacy Hall (LLH) - 800 people - $2500 base hire fee");
-
-      assertDoesNotContain("There is", true);
-      assertDoesNotContain("9 venues", true);
+      assertContains(
+          "Frugal Fiesta Hall (FFH) - 80 people - $250 base hire fee. Next available on"
+              + " 03/02/2024");
+      assertContains(
+          "Grand Gala Gardens (GGG) - 260 people - $1500 base hire fee. Next available on"
+              + " 05/02/2024");
+      assertContains(
+          "Majestic Monarch Mansion (MMM) - 1000 people - $2500 base hire fee. Next available on"
+              + " 03/02/2024");
     }
 
     @Test
-    public void T4_tests_for_values_being_zero() throws Exception {
+    public void T4_tests_for_no_venue_found() throws Exception {
       runCommands(
-          CREATE_VENUE,
-          "'Frugal Fiesta Hall'",
-          "FFH",
-          "0",
-          "150", //
-          CREATE_VENUE,
-          "'Frugal Fiesta Hall'",
-          "FFH",
-          "150",
-          "0",
-          PRINT_VENUES);
-      runCommands(CREATE_VENUE, "'Frugal Fiesta Hall'", "FFH", "23", "-1");
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGH", "27/02/2024", "client001@email.com", "230")));
 
-      assertContains("Venue not created: hire fee must be a positive number.");
-      assertDoesNotContain("Successfully created venue", true);
-      assertContains("Venue not created: capacity must be a positive number.");
-      assertContains("Venue not created: hire fee must be a positive number.");
-      assertDoesNotContain("Successfully created venue 'Frugal Fiesta Hall' (FFH).", true);
+      assertContains("Booking not made: there is no venue with code 'GGH'.");
+    }
+
+    @Test
+    public void T4_tests_for_past_dates() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "25/02/2024", "client001@email.com", "230"),
+              MAKE_BOOKING,
+              options("GGG", "26/01/2024", "client001@email.com", "230"),
+              MAKE_BOOKING,
+              options("GGG", "26/02/2023", "client001@email.com", "230")));
+
+      assertContains("Booking not made: '25/02/2024' is in the past (system date is 26/02/2024).");
+      assertContains("Booking not made: '26/01/2024' is in the past (system date is 26/02/2024).");
+      assertContains("Booking not made: '26/02/2023' is in the past (system date is 26/02/2024).");
+    }
+
+    @Test
+    public void T4_tests_for_capacity_upper_limit() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "27/02/2024", "client001@email.com", "270")));
+
+      assertContains("Number of attendees adjusted from 270 to 260, as the venue capacity is 260.");
+      assertContains(
+          "Successfully created booking 'HUD14D8O' for 'Grand Gala Gardens' on 27/02/2024 for 260"
+              + " people.");
     }
   }
 

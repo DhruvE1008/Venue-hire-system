@@ -6,8 +6,6 @@ import nz.ac.auckland.se281.Types.FloralType;
 
 public class VenueHireSystem {
 
-  // class variable that stores the number of venues
-  private int venueCount = 0;
   // variable that stores the date set
   private String date = "";
   // array list that stores the venue info
@@ -28,14 +26,14 @@ public class VenueHireSystem {
     String day;
 
     // prints message based on number of venues
-    if (venueCount == 0) {
+    if (venueList.size() == 0) {
       MessageCli.NO_VENUES.printMessage();
-    } else if (venueCount == 1) {
+    } else if (venueList.size() == 1) {
       MessageCli.NUMBER_VENUES.printMessage("is", "one", "");
-    } else if (venueCount < 10) {
-      MessageCli.NUMBER_VENUES.printMessage("are", nums[venueCount - 2], "s");
-    } else if (venueCount >= 10) {
-      MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueCount), "s");
+    } else if (venueList.size() < 10) {
+      MessageCli.NUMBER_VENUES.printMessage("are", nums[venueList.size() - 2], "s");
+    } else if (venueList.size() >= 10) {
+      MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueList.size()), "s");
     }
     // lists venues with their info
     dateStrings = date.split("/");
@@ -60,8 +58,8 @@ public class VenueHireSystem {
           } catch (Exception e) {
 
           }
-          newDate = String.valueOf(day) + "/" + dateStrings[1] + "/" + dateStrings[2];
-          bookingCount = 0;
+          newDate = day + "/" + dateStrings[1] + "/" + dateStrings[2];
+          bookingCount = -1;
         }
         bookingCount++;
       }
@@ -121,7 +119,6 @@ public class VenueHireSystem {
       // if venueName is not empty, the venue code is unique, capacityInput is positive and
       // hireFeeInput is an integer in type String the venue will be created
       MessageCli.VENUE_SUCCESSFULLY_CREATED.printMessage(venueName, venueCode);
-      venueCount++;
       // adding values to the venue info array lists
       venueList.add(new Venues(venueName, venueCode, capacityInput, hireFeeInput));
     }
@@ -153,7 +150,7 @@ public class VenueHireSystem {
       return;
     }
     // checks if there are 0 venues
-    if (venueCount == 0) {
+    if (venueList.size() == 0) {
       MessageCli.BOOKING_NOT_MADE_NO_VENUES.printMessage();
       return;
     }
@@ -316,7 +313,8 @@ public class VenueHireSystem {
                 if (serviceList.get(j).getbookingReference().equals(bookingReference)) {
                   switch (serviceList.get(j).getServiceType()) {
                     case "Catering":
-                      cateringPrice = Integer.parseInt(booking.getAttendance()) * serviceList.get(j).getPrice();
+                      cateringPrice =
+                          Integer.parseInt(booking.getAttendance()) * serviceList.get(j).getPrice();
                       cateringIndex = j;
                       break;
                     case "Floral":
@@ -332,20 +330,23 @@ public class VenueHireSystem {
               // catering info printed
               if (cateringIndex != -1) {
                 MessageCli.INVOICE_CONTENT_CATERING_ENTRY.printMessage(
-                  serviceList.get(cateringIndex).getServiceName(),
-                  String.valueOf(cateringPrice));
+                    serviceList.get(cateringIndex).getServiceName(), String.valueOf(cateringPrice));
               }
               // floral info printed
               if (floralIndex != -1) {
                 MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
-                  serviceList.get(0).getServiceName(), String.valueOf(floralPrice));
+                    serviceList.get(0).getServiceName(), String.valueOf(floralPrice));
               }
               // music info printed
               if (musicPrice != 0) {
                 MessageCli.INVOICE_CONTENT_MUSIC_ENTRY.printMessage("500");
               }
               MessageCli.INVOICE_CONTENT_BOTTOM_HALF.printMessage(
-                  String.valueOf(cateringPrice + floralPrice + musicPrice + Integer.parseInt(venue.getHireFee())));
+                  String.valueOf(
+                      cateringPrice
+                          + floralPrice
+                          + musicPrice
+                          + Integer.parseInt(venue.getHireFee())));
             } catch (Exception e) {
 
             }
