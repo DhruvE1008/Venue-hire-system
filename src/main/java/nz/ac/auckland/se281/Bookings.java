@@ -8,7 +8,13 @@ public class Bookings {
   private String bookingCode;
   private String dateOfBooking;
   
-  public Bookings(String venueCode, String date, String email, String attendance, String bookingCode, String dateOfBooking) {
+  public Bookings(
+      String venueCode, 
+      String date, 
+      String email, 
+      String attendance, 
+      String bookingCode, 
+      String dateOfBooking) {
     this.venueCode = venueCode;
     this.partyDate = date;
     this.email = email;
@@ -36,6 +42,7 @@ public class Bookings {
   public String getBookingCode() {
     return bookingCode; 
   }
+  
   public String getBookingDate() {
     return dateOfBooking;
   }

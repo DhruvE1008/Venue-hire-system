@@ -279,7 +279,7 @@ public class VenueHireSystem {
       if (booking.getBookingCode().equals(bookingReference)) {
         MessageCli.ADD_SERVICE_SUCCESSFUL.printMessage(
             ("Floral (" + floralType.getName() + ")"), bookingReference);
-        serviceList.add(new Floral("Floral", bookingReference, floralType));
+        serviceList.add(new FloralList("Floral", bookingReference, floralType));
         return;
       }
     }
