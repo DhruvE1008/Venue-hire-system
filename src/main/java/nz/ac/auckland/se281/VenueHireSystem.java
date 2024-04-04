@@ -177,7 +177,8 @@ public class VenueHireSystem {
     for (Bookings booking : bookingList) {
       if (options[1].equals(booking.getPartyDate())) {
         for (Venues venue : venueList) {
-          if (options[0].equals(venue.getVenueCode())) {
+          if (options[0].equals(venue.getVenueCode())
+              && options[0].equals(booking.getVenueCode())) {
             MessageCli.BOOKING_NOT_MADE_VENUE_ALREADY_BOOKED.printMessage(
                 venue.getVenueName(), options[1]);
             return;
@@ -199,7 +200,7 @@ public class VenueHireSystem {
           if (attendees < (capacityNum / 4)) {
             MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
                 options[3], String.valueOf(capacityNum / 4), venue.getCapacity());
-            options[3] = String.valueOf(attendees);
+            options[3] = String.valueOf(capacityNum / 4);
           } else if (attendees > capacityNum) {
             MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
                 options[3], String.valueOf(capacityNum), venue.getCapacity());
@@ -350,9 +351,12 @@ public class VenueHireSystem {
             } catch (Exception e) {
 
             }
+            return;
           }
         }
       }
     }
+    // if no booking is found a message will be output;
+    MessageCli.VIEW_INVOICE_BOOKING_NOT_FOUND.printMessage(bookingReference);
   }
 }

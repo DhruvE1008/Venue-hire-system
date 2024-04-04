@@ -779,7 +779,78 @@ public class MainTest {
           "Successfully created booking 'HUD14D8O' for 'Grand Gala Gardens' on 27/02/2024 for 260"
               + " people.");
     }
+
+    @Test
+    public void T4_tests_for_other_catering_types() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "27/03/2024", "client001@email.com", "230"), //
+              ADD_CATERING,
+              "HUD14D8O",
+              options("L"), //
+              VIEW_INVOICE,
+              "HUD14D8O",
+              MAKE_BOOKING,
+              options("FFH", "27/03/2024", "client001@email.com", "70"), //
+              ADD_CATERING,
+              "ZP4HRCZ4",
+              options("D"), //
+              VIEW_INVOICE,
+              "ZP4HRCZ4", 
+              MAKE_BOOKING,
+              options("CCEC", "27/03/2024", "client001@email.com", "100"), //
+              ADD_CATERING,
+              "28GJARMV",
+              options("X"), //
+              VIEW_INVOICE,
+              "28GJARMV",
+              MAKE_BOOKING,
+              options("CCV", "27/03/2024", "client001@email.com", "150"), //
+              ADD_CATERING,
+              "ISXW7L6G",
+              options("BL"), //
+              VIEW_INVOICE,
+              "ISXW7L6G",
+              MAKE_BOOKING,
+              options("CCH", "27/03/2024", "client001@email.com", "200"), //
+              ADD_CATERING,
+              "ALR0TCXE",
+              options("LD"), //
+              VIEW_INVOICE,
+              "ALR0TCXE",
+              MAKE_BOOKING,
+              options("RRV", "27/03/2024", "client001@email.com", "150"), //
+              ADD_CATERING,
+              "ZI0F2V54",
+              options("BLD"), //
+              VIEW_INVOICE,
+              "ZI0F2V54"));
+
+      assertContains("Successfully added Catering (Lunch) service to booking 'HUD14D8O'.");
+      assertContains("* Catering (Lunch) - $4600");
+      assertContains("Total Amount: $6100");
+      assertContains("Successfully added Catering (Dinner) service to booking 'ZP4HRCZ4'.");
+      assertContains("* Catering (Dinner) - $2100");
+      assertContains("Total Amount: $2350");
+      assertContains("Successfully added Catering (Drinks) service to booking '28GJARMV'.");
+      assertContains("* Catering (Drinks) - $1000");
+      assertContains("Total Amount: $1500");
+      assertContains("Successfully added Catering (Two Course Breakfast/Lunch) service to booking 'ISXW7L6G'.");
+      assertContains("* Catering (Two Course Breakfast/Lunch) - $6750");
+      assertContains("Total Amount: $7250");
+      assertContains("Successfully added Catering (Two Course Lunch/Dinner) service to booking 'ALR0TCXE'.");
+      assertContains("* Catering (Two Course Lunch/Dinner) - $12000");
+      assertContains("Total Amount: $12500");
+      assertContains("Successfully added Catering (Three Course) service to booking 'ZI0F2V54'.");
+      assertContains("* Catering (Three Course) - $11250");
+      assertContains("Total Amount: $11750");
+      assertDoesNotContain("not added", true);
   }
+}
 
   private static final Object[] CREATE_NINE_VENUES =
       new Object[] {
