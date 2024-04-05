@@ -781,6 +781,31 @@ public class MainTest {
     }
 
     @Test
+    public void T4_tests_for_new_set_date() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "26/02/2024", "client001@email.com", "250"),
+              PRINT_VENUES,
+              SET_DATE,
+              "20/12/2024",
+              PRINT_VENUES));
+
+      assertContains(
+          "Successfully created booking 'HUD14D8O' for 'Grand Gala Gardens' on 26/02/2024 for 250"
+              + " people.");
+      assertContains(
+          "Refined Radiance Venue (RRV) - 200 people - $500 base hire fee. Next available on"
+              + " 20/12/2024");
+      assertDoesNotContain(
+          "Refined Radiance Venue (RRV) - 200 people - $500 base hire fee. Next available on"
+              + " 26/12/2024");
+    }
+
+    @Test
     public void T4_tests_for_other_catering_types() throws Exception {
       runCommands(
           unpack(
@@ -800,7 +825,7 @@ public class MainTest {
               "ZP4HRCZ4",
               options("D"), //
               VIEW_INVOICE,
-              "ZP4HRCZ4", 
+              "ZP4HRCZ4",
               MAKE_BOOKING,
               options("CCEC", "27/03/2024", "client001@email.com", "100"), //
               ADD_CATERING,
@@ -839,18 +864,76 @@ public class MainTest {
       assertContains("Successfully added Catering (Drinks) service to booking '28GJARMV'.");
       assertContains("* Catering (Drinks) - $1000");
       assertContains("Total Amount: $1500");
-      assertContains("Successfully added Catering (Two Course Breakfast/Lunch) service to booking 'ISXW7L6G'.");
+      assertContains(
+          "Successfully added Catering (Two Course Breakfast/Lunch) service to booking"
+              + " 'ISXW7L6G'.");
       assertContains("* Catering (Two Course Breakfast/Lunch) - $6750");
       assertContains("Total Amount: $7250");
-      assertContains("Successfully added Catering (Two Course Lunch/Dinner) service to booking 'ALR0TCXE'.");
+      assertContains(
+          "Successfully added Catering (Two Course Lunch/Dinner) service to booking 'ALR0TCXE'.");
       assertContains("* Catering (Two Course Lunch/Dinner) - $12000");
       assertContains("Total Amount: $12500");
       assertContains("Successfully added Catering (Three Course) service to booking 'ZI0F2V54'.");
       assertContains("* Catering (Three Course) - $11250");
       assertContains("Total Amount: $11750");
       assertDoesNotContain("not added", true);
+    }
+
+    @Test
+    public void T4_tests_for_printing_invoices_when_no_booking_reference() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024",
+              MAKE_BOOKING,
+              options("GGG", "27/03/2024", "client001@email.com", "230"),
+              VIEW_INVOICE,
+              "ZP4HRCZ4"));
+
+      assertContains(
+          "Invoice not printed: there is no booking with reference 'ZP4HRCZ4' in the system.");
+    }
+
+    @Test
+    public void T4_tests_for_deluxe_flowers() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "27/03/2024", "client001@email.com", "230"), //
+              ADD_FLORAL,
+              "HUD14D8O",
+              options("y"), //
+              VIEW_INVOICE,
+              "HUD14D8O"));
+
+      assertContains("Successfully added Floral (Deluxe) service to booking 'HUD14D8O'.");
+      assertContains("* Floral (Deluxe) - $1000");
+      assertContains("Total Amount: $2500");
+      assertDoesNotContain("not added", true);
+    }
+
+    @Test
+    public void T4_tests_for_prices_when_attendance_wrong() throws Exception {
+      runCommands(
+          unpack(
+              CREATE_TEN_VENUES,
+              SET_DATE,
+              "26/02/2024", //
+              MAKE_BOOKING,
+              options("GGG", "27/02/2024", "client001@email.com", "270"),
+              VIEW_INVOICE,
+              "HUD14D8O"));
+
+      assertContains("Number of attendees adjusted from 270 to 260, as the venue capacity is 260.");
+      assertContains(
+          "Successfully created booking 'HUD14D8O' for 'Grand Gala Gardens' on 27/02/2024 for 260"
+              + " people.");
+    }    
   }
-}
 
   private static final Object[] CREATE_NINE_VENUES =
       new Object[] {

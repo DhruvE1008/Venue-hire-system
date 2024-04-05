@@ -190,8 +190,6 @@ public class VenueHireSystem {
     for (Venues venue : venueList) {
       if (options[0].equals(venue.getVenueCode())) {
         bookingCode = BookingReferenceGenerator.generateBookingReference();
-        bookingList.add(
-            new Bookings(options[0], options[1], options[2], options[3], bookingCode, date));
         // checks if the number of attendees are less than 25% of the capacity of the venue or the
         // number of attendees are more than the capacity of the venue
         try {
@@ -204,11 +202,13 @@ public class VenueHireSystem {
           } else if (attendees > capacityNum) {
             MessageCli.BOOKING_ATTENDEES_ADJUSTED.printMessage(
                 options[3], String.valueOf(capacityNum), venue.getCapacity());
-            options[3] = venue.getCapacity();
+            options[3] = String.valueOf(venue.getCapacity());
           }
         } catch (Exception e) {
 
         }
+        bookingList.add(
+          new Bookings(options[0], options[1], options[2], options[3], bookingCode, date));
         // prints out output when booking meets the requirements
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             bookingCode, venue.getVenueName(), options[1], options[3]);
