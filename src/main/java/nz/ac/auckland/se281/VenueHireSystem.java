@@ -40,10 +40,10 @@ public class VenueHireSystem {
     if (date == "") {
       for (Venues venue : venueList) {
         MessageCli.VENUE_ENTRY.printMessage(
-          venue.getVenueName(),
-          venue.getVenueCode(),
-          venue.getCapacity(),
-          venue.getHireFee());
+            venue.getVenueName(),
+            venue.getVenueCode(),
+            venue.getCapacity(),
+            venue.getHireFee());
       }
       return;
     }
