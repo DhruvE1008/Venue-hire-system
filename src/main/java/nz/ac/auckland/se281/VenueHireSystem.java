@@ -35,6 +35,19 @@ public class VenueHireSystem {
     } else if (venueList.size() >= 10) {
       MessageCli.NUMBER_VENUES.printMessage("are", Integer.toString(venueList.size()), "s");
     }
+
+    // if the date isn't set the output below is printed
+    if (date == "") {
+      for (Venues venue : venueList) {
+        MessageCli.VENUE_ENTRY.printMessage(
+          venue.getVenueName(),
+          venue.getVenueCode(),
+          venue.getCapacity(),
+          venue.getHireFee());
+      }
+      return;
+    }
+
     // lists venues with their info
     dateStrings = date.split("/");
     newDate = date;
