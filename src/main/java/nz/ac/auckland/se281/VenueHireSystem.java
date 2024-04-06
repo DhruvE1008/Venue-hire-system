@@ -79,9 +79,10 @@ public class VenueHireSystem {
       String venueName, String venueCode, String capacityInput, String hireFeeInput) {
     String newName = venueName.trim();
     int hireFeeNum;
+    int capacityNum;
 
     try {
-      int capacityNum = Integer.parseInt(capacityInput);
+      capacityNum = Integer.parseInt(capacityInput);
       // converting the capacity from type String to type int
       if (capacityNum < 1) {
         MessageCli.VENUE_NOT_CREATED_INVALID_NUMBER.printMessage("capacity", " positive");
@@ -208,7 +209,7 @@ public class VenueHireSystem {
 
         }
         bookingList.add(
-          new Bookings(options[0], options[1], options[2], options[3], bookingCode, date));
+            new Bookings(options[0], options[1], options[2], options[3], bookingCode, date));
         // prints out output when booking meets the requirements
         MessageCli.MAKE_BOOKING_SUCCESSFUL.printMessage(
             bookingCode, venue.getVenueName(), options[1], options[3]);
@@ -311,7 +312,7 @@ public class VenueHireSystem {
             try {
               // checks for the services booked for a booking
               for (int j = 0; j < serviceList.size(); j++) {
-                if (serviceList.get(j).getbookingReference().equals(bookingReference)) {
+                if (serviceList.get(j).getBookingReference().equals(bookingReference)) {
                   switch (serviceList.get(j).getServiceType()) {
                     case "Catering":
                       cateringPrice =

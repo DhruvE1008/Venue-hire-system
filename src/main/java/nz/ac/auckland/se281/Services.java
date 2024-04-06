@@ -13,7 +13,7 @@ public abstract class Services {
     return this.serviceType;
   }
 
-  public String getbookingReference() {
+  public String getBookingReference() {
     return this.bookingReference;
   }
 
