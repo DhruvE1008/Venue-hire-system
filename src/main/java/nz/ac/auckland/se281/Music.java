@@ -5,10 +5,12 @@ public class Music extends Services {
     super(serviceType, bookingReference);
   }
 
+  @Override
   public String getServiceName() {
     return null;
   }
 
+  @Override
   public int getPrice() {
     return 500;
   }

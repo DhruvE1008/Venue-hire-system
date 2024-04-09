@@ -10,10 +10,12 @@ public class FloralList extends Services {
     this.floralType = floralType;
   }
 
+  @Override
   public String getServiceName() {
     return floralType.getName();
   }
 
+  @Override
   public int getPrice() {
     return floralType.getCost();
   }
