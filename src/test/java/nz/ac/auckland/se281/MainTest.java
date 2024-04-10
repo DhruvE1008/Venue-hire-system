@@ -962,11 +962,18 @@ public class MainTest {
               options("GGG", "27/03/2024", "client001@email.com", "230"), //
               ADD_CATERING,
               "HUD14D8O",
-              options("L"), //
+              options("L"),
+              ADD_FLORAL,
+              "HUD14D8O",
+              options("n"),
+              ADD_MUSIC,
+              "HUD14D8O", //
               VIEW_INVOICE,
               "HUD14D8O",
               MAKE_BOOKING,
               options("FFH", "27/03/2024", "client001@email.com", "70"), //
+              ADD_MUSIC,
+              "ZP4HRCZ4",
               ADD_CATERING,
               "ZP4HRCZ4",
               options("D"), //
@@ -977,6 +984,9 @@ public class MainTest {
               ADD_CATERING,
               "28GJARMV",
               options("X"), //
+              ADD_FLORAL,
+              "28GJARMV",
+              options("y"),
               VIEW_INVOICE,
               "28GJARMV",
               MAKE_BOOKING,
@@ -1003,13 +1013,21 @@ public class MainTest {
 
       assertContains("Successfully added Catering (Lunch) service to booking 'HUD14D8O'.");
       assertContains("* Catering (Lunch) - $4600");
-      assertContains("Total Amount: $6100");
+      assertContains("Successfully added Floral (Standard) service to booking 'HUD14D8O'.");
+      assertContains("* Floral (Standard) - $550");
+      assertContains("Successfully added Music service to booking 'HUD14D8O'.");
+      assertContains("* Music - $500");
+      assertContains("Total Amount: $7150");
       assertContains("Successfully added Catering (Dinner) service to booking 'ZP4HRCZ4'.");
       assertContains("* Catering (Dinner) - $2100");
-      assertContains("Total Amount: $2350");
+      assertContains("Successfully added Music service to booking 'ZP4HRCZ4'.");
+      assertContains("* Music - $500");
+      assertContains("Total Amount: $2850");
       assertContains("Successfully added Catering (Drinks) service to booking '28GJARMV'.");
       assertContains("* Catering (Drinks) - $1000");
-      assertContains("Total Amount: $1500");
+      assertContains("Successfully added Floral (Deluxe) service to booking '28GJARMV'.");
+      assertContains("* Floral (Deluxe) - $1000");
+      assertContains("Total Amount: $2500");
       assertContains(
           "Successfully added Catering (Two Course Breakfast/Lunch) service to booking"
               + " 'ISXW7L6G'.");
@@ -1071,6 +1089,9 @@ public class MainTest {
               "26/02/2024", //
               MAKE_BOOKING,
               options("GGG", "27/02/2024", "client001@email.com", "270"),
+              ADD_CATERING,
+              "HUD14D8O",
+              options("L"),
               VIEW_INVOICE,
               "HUD14D8O"));
 
@@ -1078,6 +1099,8 @@ public class MainTest {
       assertContains(
           "Successfully created booking 'HUD14D8O' for 'Grand Gala Gardens' on 27/02/2024 for 260"
               + " people.");
+      assertContains("* Catering (Lunch) - $5200");
+      assertContains("Total Amount: $6700");
     }
   }
 

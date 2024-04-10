@@ -40,10 +40,7 @@ public class VenueHireSystem {
     if (date == "") {
       for (Venues venue : venueList) {
         MessageCli.VENUE_ENTRY.printMessage(
-            venue.getVenueName(),
-            venue.getVenueCode(),
-            venue.getCapacity(),
-            venue.getHireFee());
+            venue.getVenueName(), venue.getVenueCode(), venue.getCapacity(), venue.getHireFee());
       }
       return;
     }
@@ -350,7 +347,7 @@ public class VenueHireSystem {
               // floral info printed
               if (floralIndex != -1) {
                 MessageCli.INVOICE_CONTENT_FLORAL_ENTRY.printMessage(
-                    serviceList.get(0).getServiceName(), String.valueOf(floralPrice));
+                    serviceList.get(floralIndex).getServiceName(), String.valueOf(floralPrice));
               }
               // music info printed
               if (musicPrice != 0) {
